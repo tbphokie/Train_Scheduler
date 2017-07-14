@@ -16,7 +16,9 @@
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="assets/style/style.css">
+   <!-- Added Moment JS -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="assets/style/style.css">
 </head>
 
 <body>
@@ -48,6 +50,7 @@
                     <th>Frequency (min)</th>
                     <th>Next Arrival</th>
                     <th>Minutes Away</th>
+                    <th>Edit</th>
                   </tr>
                 </thead>
                 <tbody id="schedule">
@@ -81,7 +84,7 @@
                 </div>
               </form>
               <button type="button" id="submit-button" class="btn btn-primary">
-              <span class="glyphicon"></span>&nbsp;Submit</button>
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;Add</button>
             </div>
           </div>
         </div>
@@ -91,8 +94,7 @@
 
   <!-- Script -->
   <script src="assets/javascript/app.js"></script>
-  <!-- Added Moment JS -->
-  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
 
 </body>
 
