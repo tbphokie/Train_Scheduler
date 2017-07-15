@@ -17,14 +17,36 @@ firebase.initializeApp(config);
 
 // Create a variable to reference the database.
 var database = firebase.database();
-var childCount = 0;
 
+var provider = new firebase.auth.GithubAuthProvider();
 
-// --------------------------------------------------------------
-// Initial Values
-// --------------------------------------------------------------
+function githubSignin() {
+   firebase.auth().signInWithPopup(provider)
+   
+   .then(function(result) {
+      var token = result.credential.accessToken;
+      var user = result.user;
+    
+      console.log(token)
+      console.log(user)
+   }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+    
+      console.log(error.code)
+      console.log(error.message)
+   });
+}
 
-
+function githubSignout(){
+   firebase.auth().signOut()
+   
+   .then(function() {
+      console.log('Signout successful!')
+   }, function(error) {
+      console.log('Signout failed')
+   });
+}
 
 function createButtonText(key) {
   var text;
@@ -145,13 +167,29 @@ $('body').on('click', '#editButton', function () {
   query.child(key)
     .once('value')
       .then(function(snapshot) {
-          $("#train-name").val(snapshot.val().trainName);
-          $("#train-dest").val(snapshot.val().trainDest);
-          $("#train-time").val(snapshot.val().trainTime);
-          $("#train-freq").val(snapshot.val().trainFreq); 
+        var newName = prompt("Enter/Accept the train name: ", snapshot.val().trainName);
+        var newDest = prompt("Enter/Accept the train destination: ", snapshot.val().trainDest);
+        var newTime = prompt("Enter/Accept the first train time (military time): ", snapshot.val().trainFirstTime);
+        var newFreq = prompt("Enter/Accpet the frequency in minutes: ", snapshot.val().trainFreq); 
 
-          alert("Edit is not working yet, but it is on its way."); 
-      })
+        // regular expression to match required time format
+        re = /^\d{2}:\d{2}/;
+
+        // Make sure entries are not blank, need to add verification for time string
+        if(newName.length > 0 && newDest.length > 0 && newTime.match(re) && newFreq > 0){
+
+          database.ref(key).update({
+            trainName:newName,
+            trainDest:newDest,
+            trainFirstTime:newTime,
+            trainFreq:newFreq
+            }); 
+
+        }
+        else {
+            alert("No changes saved, double-check input format."); 
+          }         
+   })
 
 });
 
